@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Web Page</title>
+    <style>
+        body {
+            background-image: url('12.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.9;
+        }
+
+        /* Style for the navigation menu */
+        #navbar {
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            align-items: center;
+        }
+
+        /* Style for the search bar */
+        #search-bar {
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        /* Style for the search button */
+        #search-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        /* Style for the buttons */
+        .toggle-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        /* Style for the button container */
+        #button-container {
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Initially hide all Gradio app containers */
+        .gradio-app-container {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <input type="text" id="search-bar" placeholder="Search...">
+        <button id="search-button">Search</button>
+    </div>
+    
+    <div id="button-container">
+        <button class="toggle-button" data-target="gradio-container-1">WeCare Self Diagnosis Gen AI</button>
+        <button class="toggle-button" data-target="gradio-container-2">WeCare Radio Image Classifier</button>
+        <button class="toggle-button" data-target="gradio-container-3">WeCare Chat with PDF</button>
+        <button class="toggle-button" data-target="gradio-container-4">WeCare Mental Health</button>
+        <button class="toggle-button" data-target="gradio-container-5">WeCare Mental Health QA</button>
+        <button class="toggle-button" data-target="gradio-container-6">WeCare Image Upscaling</button>
+    </div>
+    <div id="gradio-container-1" class="gradio-app-container">
+        <!-- Include the Gradio app 1 here -->
+        <script
+            type="module"
+            src="https://gradio.s3-us-west-2.amazonaws.com/3.9.1/gradio.js"
+        ></script>
+        <gradio-app src="https://segadeds-medical-diagnosis.hf.space"></gradio-app>
+    </div>
+    
+    <div id="gradio-container-2" class="gradio-app-container">
+        <!-- Include the Gradio app 2 here -->
+        <script
+            type="module"
+            src="https://gradio.s3-us-west-2.amazonaws.com/3.39.0/gradio.js"
+        ></script>
+        <gradio-app src="https://fffiloni-image-to-story.hf.space"></gradio-app>
+    </div>
+
+    <div id="gradio-container-3" class="gradio-app-container">
+        <!-- Include the Gradio app 3 here -->
+        <script
+            type="module"
+            src="https://gradio.s3-us-west-2.amazonaws.com/3.42.0/gradio.js"
+        ></script>
+        <gradio-app src="https://prodia-fast-stable-diffusion.hf.space"></gradio-app>
+    </div>
+
+    <div id="gradio-container-4" class="gradio-app-container">
+        <!-- Include the Gradio app 4 here -->
+        <script
+            type="module"
+            src="https://gradio.s3-us-west-2.amazonaws.com/3.1.1/gradio.js"
+        ></script>
+        <gradio-app src="https://aieducurriculum-introtoai-mental-health-project.hf.space"></gradio-app>
+    </div>
+
+    <div id="gradio-container-5" class="gradio-app-container">
+        <!-- Include the Gradio app 5 here -->
+        <script
+            type="module"
+            src="https://gradio.s3-us-west-2.amazonaws.com/3.35.2/gradio.js"
+        ></script>
+        <gradio-app src="https://rahulsinghpundir-mentalhealth.hf.space"></gradio-app>
+    </div>
+
+    <div id="gradio-container-6" class="gradio-app-container">
+        <!-- Include the Gradio app 6 here -->
+        <script
+            type="module"
+            src="https://gradio.s3-us-west-2.amazonaws.com/3.4.1/gradio.js"
+        ></script>
+        <gradio-app src="https://bookbot-image-upscaling-playground.hf.space"></gradio-app>
+    </div>
+<script>
+    // Function to hide all Gradio containers
+    function hideAllContainers() {
+        const gradioContainers = document.querySelectorAll(".gradio-app-container");
+        gradioContainers.forEach((container) => {
+            container.style.display = "none";
+        });
+    }
+
+    // Function to change the background image
+    function changeBackgroundImage(imageUrl) {
+        document.body.style.backgroundImage = `url('${imageUrl}')`;
+    }
+
+    // Add event listener to the input field for live search
+    const searchInput = document.getElementById("search-bar");
+    searchInput.addEventListener("input", () => {
+        const searchText = searchInput.value.toLowerCase();
+
+        // Loop through the toggle buttons and hide/show them based on the search text
+        const toggleButtons = document.querySelectorAll(".toggle-button");
+        toggleButtons.forEach((button) => {
+            const buttonLabel = button.textContent.toLowerCase();
+            const targetId = button.getAttribute("data-target");
+            const gradioContainer = document.getElementById(targetId);
+
+            if (buttonLabel.includes(searchText)) {
+                button.style.display = "block";
+                if (gradioContainer.style.display === "block") {
+                    gradioContainer.style.display = "block";
+                }
+            } else {
+                button.style.display = "none";
+                if (gradioContainer.style.display === "block") {
+                    gradioContainer.style.display = "none";
+                }
+            }
+        });
+    });
+
+    // Add event listeners to toggle the visibility of Gradio containers
+    const toggleButtons = document.querySelectorAll(".toggle-button");
+    toggleButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const targetId = button.getAttribute("data-target");
+            const gradioContainer = document.getElementById(targetId);
+
+            // Hide all containers except the selected one
+            hideAllContainers();
+            gradioContainer.style.display = "block";
+
+            // Change the background image to '
+            // Change the background image to '13.png'
+            changeBackgroundImage('13.png');
+        });
+    });
+</script>
+</body>
+</html>
